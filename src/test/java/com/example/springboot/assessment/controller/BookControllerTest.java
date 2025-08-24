@@ -16,7 +16,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 
 import com.example.springboot.assessment.constant.AppConstant;
-import com.example.springboot.assessment.dto.ApiResponse;
+import com.example.springboot.assessment.dto.Response;
 import com.example.springboot.assessment.dto.BookRequestDTO;
 import com.example.springboot.assessment.dto.BookResponseDTO;
 import com.example.springboot.assessment.service.BookService;
@@ -53,7 +53,7 @@ class BookControllerTest {
     void testCreateBook() {
         when(bookService.createBook(bookRequestDTO)).thenReturn(bookResponseDTO);
 
-        ResponseEntity<ApiResponse<BookResponseDTO>> response = bookController.createBook(bookRequestDTO);
+        ResponseEntity<Response<BookResponseDTO>> response = bookController.createBook(bookRequestDTO);
 
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().getStatus()).isEqualTo(AppConstant.SUCCESS);
@@ -67,7 +67,7 @@ class BookControllerTest {
     void testGetBookById() {
         when(bookService.getBookById(1L)).thenReturn(bookResponseDTO);
 
-        ResponseEntity<ApiResponse<BookResponseDTO>> response = bookController.getBookById(1L);
+        ResponseEntity<Response<BookResponseDTO>> response = bookController.getBookById(1L);
 
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().getData().getId()).isEqualTo(1L);
@@ -80,7 +80,7 @@ class BookControllerTest {
         List<BookResponseDTO> books = Arrays.asList(bookResponseDTO);
         when(bookService.getAllBooks()).thenReturn(books);
 
-        ResponseEntity<ApiResponse<List<BookResponseDTO>>> response = bookController.getAllBooks();
+        ResponseEntity<Response<List<BookResponseDTO>>> response = bookController.getAllBooks();
 
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().getData()).hasSize(1);
@@ -93,7 +93,7 @@ class BookControllerTest {
     void testUpdateBook() {
         when(bookService.updateBook(1L, bookRequestDTO)).thenReturn(bookResponseDTO);
 
-        ResponseEntity<ApiResponse<BookResponseDTO>> response = bookController.updateBook(1L, bookRequestDTO);
+        ResponseEntity<Response<BookResponseDTO>> response = bookController.updateBook(1L, bookRequestDTO);
 
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().getMessage()).isEqualTo(AppConstant.BOOK_UPDATED);
@@ -105,7 +105,7 @@ class BookControllerTest {
     void testDeleteBook() {
         doNothing().when(bookService).deleteBook(1L);
 
-        ResponseEntity<ApiResponse<Void>> response = bookController.deleteBook(1L);
+        ResponseEntity<Response<Void>> response = bookController.deleteBook(1L);
 
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().getMessage()).isEqualTo(AppConstant.BOOK_DELETED);
